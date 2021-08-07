@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose')
+const expressValidator = require('express-validator')
 
 //import routes
 const userRoutes = require('./routes/users')
@@ -17,6 +18,10 @@ mongoose.connect(process.env.DATABASE, {
 .then(() => console.log('db connected'))
 .catch(() => console.log('not connected to the database'))
 
+
+//midlwar
+app.use(express.json())
+app.use(expressValidator)
 
 //route midlware
 app.use('/api/users', userRoutes)
