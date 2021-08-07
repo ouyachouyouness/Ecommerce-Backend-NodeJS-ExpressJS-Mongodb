@@ -1,7 +1,12 @@
 exports.userSignUpValidator = (req, res, next ) => {
-    req.chek('name', 'Name is Required').notEmpty()
-    req.check('email').isEmail()
-    req.check('password')
+    req.check('name', 'Name is Required')
+        .notEmpty();
+
+    req.check('email','Email is required')
+        .notEmpty()
+        .isEmail();
+
+    req.check('password', 'Password is Required')
         .notEmpty()
         .isLength({min: 6, max: 10})
         .withMessage('Password must between 6 and 10 caracter')
@@ -9,9 +14,11 @@ exports.userSignUpValidator = (req, res, next ) => {
     const errors = req.validationErrors()
 
     if(errors){
-        return res.status(400).json(errors)
+        return res.status(400).json(errors);
+    }else{
+        next()
     }
 
-    next()
+   
 
 } 
