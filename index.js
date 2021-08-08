@@ -1,10 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose')
-const cookiePaser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
 
 //import routes
+const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/users')
+const categoryRoutes = require('./routes/categories')
 
 //config app
 const app = express()
@@ -23,10 +25,12 @@ mongoose.connect(process.env.DATABASE, {
 //midlwar
 app.use(express.json())
 app.use(expressValidator())
-app.use(cookiePaser())
+app.use(cookieParser())
 
 //route midlware
-app.use('/api/users', userRoutes)
+app.use('/api', authRoutes)
+app.use('/api', userRoutes)
+app.use('/api/category', categoryRoutes)
 
 
 

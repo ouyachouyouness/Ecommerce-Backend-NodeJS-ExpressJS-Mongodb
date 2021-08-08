@@ -1,11 +1,16 @@
 const express = require('express')
-const { getOnUser} = require('../controllers/userController')
+
 const { userById } = require('../middlewares/user')
+
+
 const router = express.Router()
+const { createCategory} = require('../controllers/categoryController')
 const { requireSignIn, isAuth, isAdmin } = require('../middlewares/auth')
 
-router.get('/profile/:userId', requireSignIn, isAuth, getOnUser )
+
+router.post('/create/:userId', [requireSignIn, isAuth, isAdmin], createCategory )
+
 
 router.param('userId', userById)
 
-module.exports = router
+module.exports = router;
