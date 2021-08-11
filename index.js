@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
-
+const cors = require('cors');
 //import routes
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/users')
@@ -27,10 +27,11 @@ mongoose.connect(process.env.DATABASE, {
 app.use(express.json())
 app.use(expressValidator())
 app.use(cookieParser())
+app.use(cors())
 
 //route midlware
 app.use('/api', authRoutes)
-app.use('/api', userRoutes)
+app.use('/api/user', userRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/product', productRoutes)
 
