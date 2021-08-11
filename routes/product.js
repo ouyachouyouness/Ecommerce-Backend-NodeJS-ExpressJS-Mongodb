@@ -10,7 +10,8 @@ const { createProduct,
      updateProduct,
      allProduct,
      relatedProduct,
-     SearchProduct
+     SearchProduct,
+     photoProduct
     } = require('../controllers/productController')
 const { requireSignIn, isAuth, isAdmin } = require('../middlewares/auth')
 
@@ -26,8 +27,10 @@ router.get('/:productId', showProduct)
 router.get('/related/:productId', relatedProduct)
 
 router.post('/search', SearchProduct);
+router.get('/photo/:productId', photoProduct);
 
-router.param('product', productById)
+
+router.param('productId', productById)
 
 router.param('userId', userById)
 
