@@ -38,3 +38,54 @@ exports.categoryId = (req, res, next, id) => {
         next();
     })
 }
+
+exports.updateCategory = (req, res) => {
+    let category = req.category;
+
+    category.name = req.body.name;
+
+    category.save((err, category) => {
+        if(err){
+            return res.status(400).json({
+                error: 'bad request'
+            })
+        }
+
+        res.json({
+            category,
+            message: 'category updated'
+        })
+    })
+}
+
+exports.deleteCategory = (req, res) => {
+    let category = req.category;
+
+
+    category.remove((err, category) => {
+        if(err){
+            return res.status(404).json({
+                error: 'catefory not found'
+            })
+        }
+
+        res.status(204).json({
+            
+            message: 'category deleted'
+        })
+    })
+}
+
+exports.allCategories = (req, res )=> {
+    Category.find().exec((err, categories) => {
+        if(err){
+            return res.status(500).json({
+                error: err
+            })
+        }
+
+        res.json({
+            categories
+        })
+    })
+}
