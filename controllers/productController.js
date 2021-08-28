@@ -1,14 +1,20 @@
 const Product = require('../models/product');
+const _ = require('lodash');
+const fs = require('fs');
+const Joi = require('joi');
+
+
 const formidable = require('formidable')
-const fs = require('fs')
-const Joi = require('joi')
-const _ = require('lodash')
+
+
 
 exports.createProduct = (req, res) => {
 
     //console.log(req);
 
     let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+
 
     form.parse(req, (err, fields, files) => {
 
@@ -21,7 +27,7 @@ exports.createProduct = (req, res) => {
 
         let product = new Product(fields);
 
-        if (fields.photo) {
+        if (files.photo) {
 
             if(files.photo.size > Math.pow(10, 6)){
                 return res.status(400).json({
@@ -61,7 +67,7 @@ exports.createProduct = (req, res) => {
                 
                 }
                 res.json({
-                    product: product
+                    product
                 
                 })
         })
@@ -129,7 +135,7 @@ exports.updateProduct = (req, res) => {
 
 
 
-        if (fields.photo) {
+        if (files.photo) {
 
             if(files.photo.size > Math.pow(10, 6)){
                 return res.status(400).json({
@@ -229,9 +235,10 @@ exports.SearchProduct = (req, res) => {
 
     let sortBy = req.query.sortBy? req.query.sortBy: '_id'
     let order = req.query.order? req.query.order: 'asc'
-    let limit = req.query.limit? parseInt(req.query.limit): 100
+    let limit = req.body.limit? parseInt(req.body.limit): 100
     let skip = parseInt(req.body.skip)
     let findArgs = {}
+
 
     for(let key in req.body.filters) {
         if(req.body.filters[key].length > 0){

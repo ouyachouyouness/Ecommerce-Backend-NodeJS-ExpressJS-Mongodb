@@ -41,7 +41,12 @@ const productschema = new mongoose.Schema({
         require : false,
         type: Boolean,
         default: false
+    },
+    sold:{
+        type: Number,
+        default: 0
     }
 }, {timestamps: true})
 
 module.exports = mongoose.model('Product', productschema)
+
