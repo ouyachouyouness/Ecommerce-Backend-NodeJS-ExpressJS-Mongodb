@@ -188,8 +188,20 @@ exports.allProduct = (req, res) => {
     let sortBy = req.query.sortBy? req.query.sortBy: '_id'
     let order = req.query.order? req.query.order: 'asc'
     let limit = req.query.limit? parseInt(req.query.limit): 6
+    let query = {}
 
-    Product.find()
+    let { search ,category} = req.query
+
+    if(search){
+        query.name = { $regex: search, $options: 'i'}
+    }
+
+    if(category){
+        query.category = category
+    }
+
+
+    Product.find(querynodemo)
            .select("-photo")
            .populate('category')
            .sort([[sortBy, order]])
@@ -239,7 +251,7 @@ exports.SearchProduct = (req, res) => {
     let skip = parseInt(req.body.skip)
     let findArgs = {}
 
-
+    
     for(let key in req.body.filters) {
         if(req.body.filters[key].length > 0){
             if(key === "price"){
